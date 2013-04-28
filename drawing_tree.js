@@ -1,3 +1,5 @@
+var leaves = [];
+
 // use_html: drawing.html
 function branch(thickness) {
   // Give the branches individuality by randomizing their length
@@ -11,8 +13,7 @@ function branch(thickness) {
   moveTo(0, height);
   if (thickness < 2) {
     // Draw a leaf, and nothing more, if this branch is very thin
-    color("purple");
-    circle(0, 0, 5);
+    add_leaf();
   } else {
     // Draw two branches springing from this branch, rotated at
     // 30-degree angles
@@ -27,11 +28,28 @@ function branch(thickness) {
   goBack();
 }
 
+function add_leaf() {
+  leaves.push(_ctx.getCoords(0,0));
+}
+
+function draw_leaf(leaf) {
+  circle(0, 0, 5);
+}
+
+function draw_leaves(offsetX, offsetY) {
+  color("purple");
+  for (var i=0; i<leaves.length; i++) {
+    var leaf = leaves[i];
+    circle(leaf.x - _centerX + offsetX, _centerY - leaf.y - offsetY, 5);
+  }
+}
+
 function drawing() {
   // Move down to make room for tree crown
-  moveTo(0, -200);
+  moveTo(0, -100);
   // Draw the trunk, which in turn draws branches, and so on.
-  branch(16);
+  branch(8);
+  draw_leaves(0, -100);
 }
 
 // The following functions are available:

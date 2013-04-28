@@ -3,7 +3,7 @@ var _canvas, _ctx;
 window.onload = function() {
   setTimeout(function() {
     _canvas = document.getElementById("mycanvas");
-    _ctx = _canvas.getContext("2d");
+    _ctx = new CanvasWrapper(_canvas.getContext("2d"));
     clear();
     drawing();
   }, 20);
