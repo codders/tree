@@ -61,21 +61,21 @@ function branch(thickness) {
 }
 
 function add_leaf() {
-  leaves.push(new Leaf(_ctx.getCoords(0,0)));
+  leaves.push(new Leaf(absolutePosition(0,0)));
 }
 
 function draw_leaf(leaf) {
   circle(0, 0, 5);
 }
 
-function draw_leaves() {
+function draw_leaves(cutoffHeight, windCutoffHeight) {
   for (var i=0; i<leaves.length; i++) {
     var leaf = leaves[i];
     color(leaf.color());
-    circle(leaf.getX() - _centerX, Math.max(_centerY - leaf.y, -100), 5);
+    circle(leaf.getX(), Math.max(leaf.y, cutoffHeight), 5);
     if (leaf.falling) {
-      leaf.y++;
-      if (leaf.y < _centerY) {
+      leaf.y--;
+      if (leaf.y > windCutoffHeight) {
         leaf.blow();
       }
     }
@@ -90,15 +90,16 @@ function update_a_leaf() {
 function drawing() {
   // Draw the trunk, which in turn draws branches, and so on.
   var seedId = Math.random();
-  moveTo(0, -100);
+  var treeBase = -100;
+  moveTo(0, treeBase);
   branch(16);
   goBack();
-  var imgData = _ctx.getImageData(_centerX - 200, _centerY - 300, 400, 600);
+  var imgData = snapshot(-200, 300, 400, 600);
   setInterval(redraw, 20);
   function redraw() {
     // Move down to make room for tree crown
-    _ctx.putImageData(imgData, _centerX - 200, _centerY - 300);
-    draw_leaves();
+    paste(imgData, -200, 300);
+    draw_leaves(treeBase, treeBase + 100);
     update_a_leaf();
   }
 }

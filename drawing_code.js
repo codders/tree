@@ -48,6 +48,11 @@ function line(x1, y1, x2, y2) {
   _ctx.stroke();
 }
 
+function absolutePosition(x, y) {
+  var coordinates = _ctx.getCoords(x, y);
+  return { x: (coordinates.x - _centerX), y: (_centerY - coordinates.y) };
+}
+
 function path(spec) {
   _ctx.beginPath();
   var parsed = spec.split(/\s+/g);
@@ -77,6 +82,14 @@ function path(spec) {
   } catch(e) {
     console.log("Bad path: " + e.message);
   }
+}
+
+function snapshot(x, y, width, height) {
+  return _ctx.getImageData(_centerX + x, _centerY - y, width, height);
+}
+
+function paste(imageData, x, y) {
+  _ctx.putImageData(imageData, _centerX + x, _centerY - y);
 }
 
 function text(x, y, string) {
