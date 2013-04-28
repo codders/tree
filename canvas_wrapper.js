@@ -105,6 +105,14 @@ cwPrototype.rect = function (aX, aY, aWidth, aHeight) {
   this.currentX_ = p.x;
   this.currentY_ = p.y;
 };
+cwPrototype.getImageData = function(aX, aY, aWidth, aHeight) {
+  this.applyContextProperties();
+  return this.canvas.getImageData(aX, aY, aWidth, aHeight);
+};
+cwPrototype.putImageData = function(imageData, aX, aY) {
+  this.applyContextProperties();
+  this.canvas.putImageData(imageData, aX, aY);
+};
 cwPrototype.strokeRect = function (aX, aY, aWidth, aHeight) {
   this.applyContextProperties();
   this.canvas.strokeRect(aX, aY, aWidth, aHeight);

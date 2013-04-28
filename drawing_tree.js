@@ -1,5 +1,37 @@
 var leaves = [];
 
+function Leaf(coords) {
+  this.x = coords.x;
+  this.y = coords.y;
+  this.offsetX = 0;
+  this.colors = [ "green", "orange", "yellow" ];
+  this.currentColor = 0;
+  this.direction = (Math.floor(Math.random() * 2) == 1);
+  this.getX = function() {
+    return this.x + this.offsetX;
+  }
+  this.blow = function() {
+    if (this.direction) {
+      this.offsetX++;
+    } else {
+      this.offsetX--;
+    }
+    if (Math.abs(this.offsetX) > 3) {
+      this.direction = !this.direction;
+    }
+  }
+  this.color = function () {
+    return this.colors[this.currentColor];
+  }
+  this.age = function() {
+    if (this.currentColor < this.colors.length - 1) {
+      this.currentColor++;
+    } else {
+      this.falling = true;
+    }
+  }
+}
+
 // use_html: drawing.html
 function branch(thickness) {
   // Give the branches individuality by randomizing their length
@@ -29,27 +61,46 @@ function branch(thickness) {
 }
 
 function add_leaf() {
-  leaves.push(_ctx.getCoords(0,0));
+  leaves.push(new Leaf(_ctx.getCoords(0,0)));
 }
 
 function draw_leaf(leaf) {
   circle(0, 0, 5);
 }
 
-function draw_leaves(offsetX, offsetY) {
-  color("purple");
+function draw_leaves() {
   for (var i=0; i<leaves.length; i++) {
     var leaf = leaves[i];
-    circle(leaf.x - _centerX + offsetX, _centerY - leaf.y - offsetY, 5);
+    color(leaf.color());
+    circle(leaf.getX() - _centerX, Math.max(_centerY - leaf.y, -100), 5);
+    if (leaf.falling) {
+      leaf.y++;
+      if (leaf.y < _centerY) {
+        leaf.blow();
+      }
+    }
   }
 }
 
+function update_a_leaf() {
+  var leaf = leaves[Math.floor(Math.random() * leaves.length)];
+  leaf.age();
+}
+
 function drawing() {
-  // Move down to make room for tree crown
-  moveTo(0, -100);
   // Draw the trunk, which in turn draws branches, and so on.
-  branch(8);
-  draw_leaves(0, -100);
+  var seedId = Math.random();
+  moveTo(0, -100);
+  branch(16);
+  goBack();
+  var imgData = _ctx.getImageData(_centerX - 200, _centerY - 300, 400, 600);
+  setInterval(redraw, 20);
+  function redraw() {
+    // Move down to make room for tree crown
+    _ctx.putImageData(imgData, _centerX - 200, _centerY - 300);
+    draw_leaves();
+    update_a_leaf();
+  }
 }
 
 // The following functions are available:
