@@ -1,3 +1,6 @@
+// From: https://github.com/OpenTechSchool/js-beginners-day1/blob/gh-pages/examples/drawing_code.js
+// Modified to add a wrapper on the Canvas object
+// FIXME: CanvasWrapper breaks the 'clear()' function
 var _canvas, _ctx;
 
 window.onload = function() {

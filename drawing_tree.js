@@ -1,3 +1,4 @@
+// From: https://github.com/OpenTechSchool/js-beginners-day1/blob/gh-pages/examples/drawing_tree.js
 var leaves = [];
 
 function Leaf(coords) {

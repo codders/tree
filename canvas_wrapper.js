@@ -1,3 +1,4 @@
+// from: https://github.com/davmlaw/ProceduralGraphics/blob/gh-pages/canvas_wrapper.js
 // Canvas doesn't support getCoords() which I really need....
 // So I made a wrapper, code mostly taken from excanvas.js by Google - http://code.google.com/p/explorercanvas/
 // alias some functions to make (compiled) code shorter
