@@ -45,7 +45,7 @@ function branch(thickness) {
   moveTo(0, height);
   if (thickness < 2) {
     // Draw a leaf, and nothing more, if this branch is very thin
-    add_leaf();
+    addLeaf();
   } else {
     // Draw two branches springing from this branch, rotated at
     // 30-degree angles
@@ -60,15 +60,15 @@ function branch(thickness) {
   goBack();
 }
 
-function add_leaf() {
+function addLeaf() {
   leaves.push(new Leaf(absolutePosition(0,0)));
 }
 
-function draw_leaf(leaf) {
+function drawLeaf(leaf) {
   circle(0, 0, 5);
 }
 
-function draw_leaves(cutoffHeight, windCutoffHeight) {
+function drawLeaves(cutoffHeight, windCutoffHeight) {
   for (var i=0; i<leaves.length; i++) {
     var leaf = leaves[i];
     color(leaf.color());
@@ -82,7 +82,7 @@ function draw_leaves(cutoffHeight, windCutoffHeight) {
   }
 }
 
-function update_a_leaf() {
+function ageOneLeaf() {
   var leaf = leaves[Math.floor(Math.random() * leaves.length)];
   leaf.age();
 }
@@ -94,13 +94,13 @@ function drawing() {
   moveTo(0, treeBase);
   branch(16);
   goBack();
-  var imgData = snapshot(-200, 300, 400, 600);
+  var imgData = copyRectangle(-200, 300, 400, 600);
   setInterval(redraw, 20);
   function redraw() {
     // Move down to make room for tree crown
-    paste(imgData, -200, 300);
-    draw_leaves(treeBase, treeBase + 100);
-    update_a_leaf();
+    pasteRectangle(imgData, -200, 300);
+    drawLeaves(treeBase, treeBase + 100);
+    ageOneLeaf();
   }
 }
 

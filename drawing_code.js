@@ -84,11 +84,11 @@ function path(spec) {
   }
 }
 
-function snapshot(x, y, width, height) {
+function copyRectangle(x, y, width, height) {
   return _ctx.getImageData(_centerX + x, _centerY - y, width, height);
 }
 
-function paste(imageData, x, y) {
+function pasteRectangle(imageData, x, y) {
   _ctx.putImageData(imageData, _centerX + x, _centerY - y);
 }
 
